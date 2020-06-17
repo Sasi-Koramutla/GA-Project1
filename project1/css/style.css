@@ -17,11 +17,11 @@ body{
     border: 1px solid gray;
     border-radius: 5px;
     display:flex;
-    align-items: center;
+    align-items: flex-start;
     text-align: center;
     justify-content: center;
     flex-direction: column;
-
+    max-width: 30%;
 }
 
 #results{
@@ -29,10 +29,12 @@ body{
     border: 1px solid gray; 
     border-radius: 5px;
     display:flex;
-    align-items: center;
+    align-items: flex-start;
     text-align: center;
     justify-content: space-around;
     flex-direction: row;
+    display:none;
+    flex-wrap: wrap;
 
 }
 
