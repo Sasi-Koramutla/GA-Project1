@@ -12,49 +12,35 @@ body{
     justify-content: center;
 } */
 
-#row1-col1, 
-#row1-col2, 
-#row1-col3, #row2-col1, 
-#row2-col2, 
-#row2-col3, #row3-col1, 
-#row3-col2, 
-#row3-col3 {
-    width:100px;
-    height:100px;
-    display:flex;
+#giphy, #weather, #news{
+    margin:20px;
     border: 1px solid gray;
-    align-items: center;
-    text-align: center;
-    justify-content: center;
-    font-size: xx-large;
-    font-weight: bolder;
-    color: white;
-}
-
-.game-square-x{
-    background-color: green;
-}
-
-.game-square-o{
-    background-color: red;
-}
-
-#scores{
+    border-radius: 5px;
     display:flex;
-    flex-direction:row;
-    flex-wrap: wrap;
     align-items: center;
     text-align: center;
     justify-content: center;
-    font-size: xx-large;
-    font-weight: bolder;
+    flex-direction: column;
+
 }
 
-#player1,#player2,#noresult{
-background-color:  rgb(212, 211, 211);
-    margin: 20px;
-    padding:20px;
-    height:125px;
+#results{
+    margin:20px;
+    border: 1px solid gray; 
+    border-radius: 5px;
+    display:flex;
+    align-items: center;
+    text-align: center;
+    justify-content: space-around;
+    flex-direction: row;
+
+}
+
+
+.btn-primary {
+    background-color: rgb(15, 15, 163);
+
+    color: white;
 }
 
 #modal {
