@@ -46,7 +46,7 @@ const getData = () => {
   
   //Weather API - Accuweather
   $.ajax({
-    url: `http://dataservice.accuweather.com/forecasts/v1/daily/5day/178087?apikey=UTyEmUNTR7FmVptMCKS7CHHAdSeoDnQR`
+    url: `https://dataservice.accuweather.com/forecasts/v1/daily/5day/178087?apikey=UTyEmUNTR7FmVptMCKS7CHHAdSeoDnQR`
   }).then((cities) => {
    weatherData = cities;
     setTimeout(console.log(weatherData.DailyForecasts),1000);
