@@ -6,26 +6,33 @@
     <title>City App</title>
     <!-- CSS Links -->
     <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Lexend+Tera&display=swap" rel="stylesheet">
     <!-- JavaScript & jQuery Links -->
   </head>
   <body>
-  <div class="jumbotron"><h2>WHERE DO YOU WANT TO GO TODAY?</h2></div>
-  <div class="container">
+    <div class="carousel">
+        <img src="img/city.jpg">
 
-  </div>
-    <div id="modal">
-      <div id="modal-textbox">
-        <button class="btn btn-primary" id="close">Close</button>
-       <h1><div id="modal-textbox-result"></div></h1> 
-      </div>
     </div>
-    <select name="cities" id="cities">
-        <option value="Berlin">Berlin</option>
-      </select>
-    <button id="search" class="btn btn-primary">Search </button>
+     <div class="jumbotron"><h2>Let's Go!</h2>
+        <select name="cities" id="cities" style="width:100px">
+            <option value="Berlin">Berlin</option>
+        </select>
+        <button id="search" class="btn btn-primary bounce-top">Search </button>
+    </div>
+    <div class="container">
+
+    </div>
+    <div id="modal">
+        <div id="modal-textbox">
+        <button class="btn btn-primary" id="close">Close</button>
+        <h1><div id="modal-textbox-result"></div></h1> 
+        </div>
+    </div>
+
     <div id="results">
         <div id="giphy">
-           <h1> City Mood</h1>
+            <h1> City Mood</h1>
         </div>
 
         <div id="weather">
