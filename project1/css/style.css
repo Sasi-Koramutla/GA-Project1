@@ -187,7 +187,7 @@ body{
 #prev {
     cursor: pointer;
     position: absolute;
-    top: 30%;
+    top: 45%;
     left:50px;
     display: flex;
     font-size: 60px;
@@ -203,7 +203,7 @@ body{
 #next {
     cursor: pointer;
     position: absolute;
-    top: 30%;
+    top: 45%;
     right: 50px;
     display: flex;
     font-size: 60px;
@@ -249,6 +249,7 @@ body{
      max-width: 35%;
      margin-left: 60%;
      background-color: white;
+     margin-right: 10%;
     }
 
  li{
@@ -267,6 +268,65 @@ body{
 
  .nav{
      position: sticky;
-     top:5px;
+     top:0;
+     padding:20px;
+     width:100%;
+     background-color: white;
+     z-index:2;
  }
 
+ .aNav:link, .aNav:visited, .aNav:active {
+    color: black;
+    background-color: white;
+    text-decoration: none;
+  }
+  
+  @media only screen and (max-width: 650px) {
+
+   .img-giphy{
+       width:100px;
+       height:100px;
+   }
+    .img-carousel, .carousel {
+         display:none;
+       }
+    ul, .nav{
+        flex-direction:column;
+        align-self: center;
+    }
+
+    .nav{
+        z-index:2;
+        width:100%;
+        background-color: white;
+        top:0;
+        padding:20px;
+
+    }
+
+    #prev, #next{
+        width:20px;
+        font-size: small;
+        display:none;
+    }
+
+    .jumbotron{
+        border: none;
+        padding:none;
+        margin: none;
+    }
+
+    #cities, .btn-primary{
+        max-width:50%;
+        margin-top:5px;
+        height:30px;
+    }
+
+
+  }
+
+  @media only screen and (min-width: 600px) {
+    img {
+     height:auto;
+    }
+}

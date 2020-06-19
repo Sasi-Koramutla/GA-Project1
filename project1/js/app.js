@@ -5,6 +5,10 @@ let titleQuery = ``;
 let queryURL = ``;  
 
  $(()=>{
+//defining localStorage   
+if(localStorage.count==null){
+      localStorage.setItem("count",0);  
+   }
 
 console.log("I am at before ajax!");
 var cityData;
@@ -59,7 +63,8 @@ $("#search").on("click",function(event){
 
 
 const getData = () => {
-  
+  localStorage.count+=1;
+  localStorage.setItem(`search_${localStorage.count}`,$("#cities").val());
   var newsData;
   var giphyData;
   var weatherData;
@@ -197,6 +202,11 @@ function prevClick(){
   $(`${imagId}`).css("display","block");
   //console.log("changed image to " + imgNumber);
 
+}
+var string="search_0";
+for(i=0;i<localStorage.length-1;i++){
+  string+="1";
+  console.log(localStorage.getItem(string));
 }
 
 });
