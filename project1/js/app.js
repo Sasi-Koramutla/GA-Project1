@@ -153,6 +153,52 @@ setTimeout(()=>{
 console.log("I am at after ajax!");
 console.log($("#cities").val());
 
+//carousel logic
+var imgNumber = 1;
+
+$("#img1").css("display","block");
+$("#next").on("click",nextClick);
+$("#prev").on("click",prevClick);
+
+for(i=1;i<5;i++){
+  setTimeout(nextClick,2000*i);
+  console.log("in carousel animation loop - " + i);
+}
+
+//carousel next button click function
+function nextClick(){
+  var imagId = "#img"
+  
+  if (imgNumber < 4)
+  imgNumber+=1;
+
+  else
+  imgNumber=1;
+
+  imagId+=imgNumber;
+  $(".img-carousel").css("display", "none");
+  $(`${imagId}`).css("display","block");
+  //console.log("changed image to " + imgNumber);
+
+}
+
+//carousel prev button click function
+function prevClick(){
+  var imagId = "#img"
+  
+  if (imgNumber > 1)
+  imgNumber-=1;
+
+  else
+  imgNumber=4;
+
+  imagId+=imgNumber;
+  $(".img-carousel").css("display", "none");
+  $(`${imagId}`).css("display","block");
+  //console.log("changed image to " + imgNumber);
+
+}
+
 });
 
 
