@@ -1,12 +1,55 @@
-/* const baseURL =`http://www.omdbapi.com/?`;
-const apiKey=`apikey=bf73b3c`;
-const queryType = `t=`;
-let titleQuery = 'eraserhead';
-let queryURL = baseURL + apiKey + '&' + queryType;   */
+let baseURL =``;
+let apiKey=``;
+let queryType = ``;
+let titleQuery = ``;
+let queryURL = ``;  
 
  $(()=>{
 
 console.log("I am at before ajax!");
+var cityData;
+//API to get the list of 100 cities
+baseURL =`https://dataservice.accuweather.com`;
+apiKey=`?apikey=UTyEmUNTR7FmVptMCKS7CHHAdSeoDnQR`;
+queryType = `/locations/v1/topcities/`;
+titleQuery = `100`;//$("#cities").val();
+queryURL = baseURL + queryType + titleQuery + apiKey; 
+$.ajax({
+  url: queryURL
+}).then((cities)=>{
+  cityData = cities;
+  console.log(cityData);
+},
+  (error)=>{
+    console.log(error)
+  });
+
+//sorting cities data  
+setTimeout(()=>{cityData.sort(function(a,b){
+        var nameA = a.EnglishName.toUpperCase();
+        var nameB = b.EnglishName.toUpperCase();
+        if (nameA < nameB) {
+          return -1;
+        }
+        if (nameA > nameB) {
+          return 1;
+        }
+      
+        // names must be equal
+        return 0;
+      });
+
+        console.log(cityData);
+      //Populating the dropdown of cities
+      for(i=0;i<cityData.length;i++){
+        $option = $("<option>").html(`${cityData[i].EnglishName}`);
+        $option.attr("value",cityData[i].EnglishName);
+        $("#cities").append($option);
+
+      }
+}, 100);
+
+
 //search button logic
 $("#search").on("click",function(event){
   event.preventDefault();
@@ -19,12 +62,16 @@ const getData = () => {
   
   var newsData;
   var giphyData;
-  var cityData;
   var weatherData;
-
-  //News API - New York Times
+ //News API - New York Times
+ baseURL =`https://api.nytimes.com/svc/search/v2/articlesearch.json`;
+ apiKey=`&api-key=gFGAKvH7aWr5cKCq0QEb9meMALFVGbm9`;
+ queryType = `?q`;
+ titleQuery = $("#cities").val();
+ queryURL = baseURL + queryType + titleQuery + apiKey;  
+ 
  $.ajax({
-    url: `https://api.nytimes.com/svc/search/v2/articlesearch.json?q=Berlin&api-key=CToDJ8Mw4A2LtQLGhxE4xtG17dRisE2J`
+    url: queryURL
   }).then((news) => {
    newsData = news;
     setTimeout(console.log(newsData),1000);
@@ -32,9 +79,15 @@ const getData = () => {
     console.error(error)
   }); 
 
+
   //GIPHY API
+  baseURL =`https://api.giphy.com/v1/gifs/search`;
+  apiKey=`&api_key=dc6zaTOxFJmzC`;
+  queryType = `?q=`;
+  titleQuery = $("#cities").val();
+  queryURL = baseURL + queryType + titleQuery + apiKey; 
   $.ajax({
-    url: `https://api.giphy.com/v1/gifs/search?q=Berlin&api_key=dc6zaTOxFJmzC&limit=10`
+    url: queryURL
   }).then((giphy) => {
    giphyData = giphy;
     //setTimeout(console.log(giphyData.data[0].images.fixed_height.url),2000);
@@ -45,8 +98,13 @@ const getData = () => {
   });
   
   //Weather API - Accuweather
+  baseURL =`https://dataservice.accuweather.com`;
+  apiKey=`?apikey=UTyEmUNTR7FmVptMCKS7CHHAdSeoDnQR`;
+  queryType = `/forecasts/v1/daily/5day/`;
+  titleQuery = `178087`;//$("#cities").val();
+  queryURL = baseURL + queryType + titleQuery + apiKey; 
   $.ajax({
-    url: `https://dataservice.accuweather.com/forecasts/v1/daily/5day/178087?apikey=UTyEmUNTR7FmVptMCKS7CHHAdSeoDnQR`
+    url: queryURL
   }).then((cities) => {
    weatherData = cities;
     setTimeout(console.log(weatherData.DailyForecasts),1000);
@@ -54,29 +112,40 @@ const getData = () => {
     console.error(error);
   });
 setTimeout(()=>{
-  $("#results").css("display","flex");
-  $("#weather-table").append(`<tr><th>Date</th> <th>Day Weather</th> <th>Max Temperature</th> <th>Min Temperature</th> <th>Night Weather</th> </tr>`);
-  
+  $("#results").css("display","block");
+  $("#weather-div").empty();
+  $("#news-div").empty();
+  $("#giphy-div").empty();
+    
   for(i=0;i<5;i++){
-    const img = giphyData.data[i].images.fixed_height.url;
-    const $giphyDiv = $("<img>").attr("src",img);
+    //const img = giphyData.data[i].images.fixed_height.url;
+    //const $giphyDiv = $(`<img class="img-giphy">`).attr("src",img);
 
-    const date = weatherData.DailyForecasts[i].Date.substring(0,10);
+    const date = new Date(weatherData.DailyForecasts[i].Date.substring(0,10)).toString().substring(0,10);
     const dayWeather = weatherData.DailyForecasts[i].Day.IconPhrase;
-    const maxTemp = weatherData.DailyForecasts[i].Temperature.Maximum.Value + " F";
-    const minTemp = weatherData.DailyForecasts[i].Temperature.Minimum.Value + " F";
+    const maxTemp = weatherData.DailyForecasts[i].Temperature.Maximum.Value + "F";
+    const minTemp = weatherData.DailyForecasts[i].Temperature.Minimum.Value + "F";
     const nightWeather = weatherData.DailyForecasts[i].Night.IconPhrase;
     //const $weatherDiv = $("<div>").html(`<tr><td>${dayWeather}</td><td>${maxTemp}</td><td>${minTemp}</td></tr>`);
     
     const newsLink = newsData.response.docs[i].web_url;
     const newsHeader = newsData.response.docs[i].headline.main;
-    const $newsDiv = $("<div>").html(`<strong>Article - ${i+1}</strong> <a href='${newsLink}'>${newsHeader}</a>`);
+    const leadParagraph = newsData.response.docs[i].lead_paragraph;
+    const $newsDiv = $("<div>").html(`<strong>${i+1}</strong> <a href='${newsLink}'>${newsHeader}</a><p>${leadParagraph}</p><br>`);
  
-     $("#giphy").append($giphyDiv);
-     $("#weather-table").append(`<tr><td>${date}</td><td>${dayWeather}</td><td>${maxTemp}</td><td>${minTemp}</td><td>${nightWeather}</td></tr>`);
-     $("#news").append($newsDiv);
- 
-   }
+    // $("#giphy").append($giphyDiv);
+     $("#weather-div").append(`<div class="weather-div"> <div class="weather-date">${date}</div>  <br><div>${maxTemp}/${minTemp}</div><br>  <div>${dayWeather} in the day. </div><br><div>${nightWeather} in the night.</div><br><br></div>`);
+     $("#news-div").append($newsDiv);
+    }
+
+    for(i=0;i<25;i++){
+      const img = giphyData.data[i].images.fixed_height.url;
+      const $giphyDiv = $(`<img class="img-giphy">`).attr("src",img);
+      $("#giphy-div").append($giphyDiv);
+
+      }
+
+
 },2000)
 
 

@@ -12,11 +12,15 @@
   <body>
     <div class="carousel">
         <img src="img/city.jpg">
+        <img src="img/city2.jpg">
+        <img src="img/city3.jpg">
 
     </div>
-     <div class="jumbotron"><h2>Let's Go!</h2>
-        <select name="cities" id="cities" style="width:100px">
-            <option value="Berlin">Berlin</option>
+     <div class="jumbotron"><h2>Let's Go!</h2><br>
+        <select name="cities" id="cities">
+            <option value="" selected>Please Select a City</option>
+            <!-- <option value="Berlin">Berlin</option>
+            <option value="Paris">Paris</option> -->
         </select>
         <button id="search" class="btn btn-primary bounce-top">Search </button>
     </div>
@@ -33,15 +37,17 @@
     <div id="results">
         <div id="giphy">
             <h1> City Mood</h1>
+            <div id="giphy-div"></div>
         </div>
 
         <div id="weather">
             <h1> City Weather</h1>
-            <table id="weather-table"></table>
+            <div id="weather-div"></div>
         </div>
 
         <div id="news">
             <h1> City News</h1>
+            <div id="news-div"></div>
         </div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
