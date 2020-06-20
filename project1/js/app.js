@@ -16,7 +16,7 @@ getCityData();
 function getCityData(){
     //API to get the list of 100 cities
     baseURL =`https://dataservice.accuweather.com`;
-    apiKey=`?apikey=UTyEmUNTR7FmVptMCKS7CHHAdSeoDnQR`;
+    apiKey=`?apikey=sAAYnkGDdR4uGyMkbQx7MnxgDXAs1oLR`;
     queryType = `/locations/v1/topcities/`;
     titleQuery = `100`;//$("#cities").val();
     queryURL = baseURL + queryType + titleQuery + apiKey; 
@@ -113,7 +113,7 @@ const getData = () => {
   
   //Weather API - Accuweather
   baseURL =`https://dataservice.accuweather.com`;
-  apiKey=`?apikey=UTyEmUNTR7FmVptMCKS7CHHAdSeoDnQR`;
+  apiKey=`?apikey=sAAYnkGDdR4uGyMkbQx7MnxgDXAs1oLR`;
   queryType = `/forecasts/v1/daily/5day/`;
   titleQuery = cityData[cityData.findIndex((value, index, array)=>{if (array[index].EnglishName == $("#cities").val())
                                                                     return index;
