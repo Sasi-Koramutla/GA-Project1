@@ -64,7 +64,9 @@ $("#search").on("click",function(event){
   console.log("I am inside onclick");
   getCityData();
   getData();
-  setTimeout(()=>{$(".loading").css("display","none")},8000);
+  setTimeout(()=>{$(".loading").css("display","none");
+                    $("#results").css("display","block");
+                  },6000);
 });
 
 
@@ -135,7 +137,6 @@ const getData = () => {
     console.error(error);
   });
 setTimeout(()=>{
-  $("#results").css("display","block");
   $("#weather-div").empty();
   $("#news-div").empty();
     
