@@ -12,57 +12,64 @@ if(localStorage.count==null){
 
 console.log("I am at before ajax!");
 var cityData;
-//API to get the list of 100 cities
-baseURL =`https://dataservice.accuweather.com`;
-apiKey=`?apikey=UTyEmUNTR7FmVptMCKS7CHHAdSeoDnQR`;
-queryType = `/locations/v1/topcities/`;
-titleQuery = `100`;//$("#cities").val();
-queryURL = baseURL + queryType + titleQuery + apiKey; 
-$.ajax({
-  url: queryURL
-}).then((cities)=>{
-  cityData = cities;
-  console.log(cityData);
-},
-  (error)=>{
-    console.log(error)
-  });
+getCityData();
+function getCityData(){
+    //API to get the list of 100 cities
+    baseURL =`https://dataservice.accuweather.com`;
+    apiKey=`?apikey=UTyEmUNTR7FmVptMCKS7CHHAdSeoDnQR`;
+    queryType = `/locations/v1/topcities/`;
+    titleQuery = `100`;//$("#cities").val();
+    queryURL = baseURL + queryType + titleQuery + apiKey; 
 
-//sorting cities data  
-setTimeout(()=>{cityData.sort(function(a,b){
-        var nameA = a.EnglishName.toUpperCase();
-        var nameB = b.EnglishName.toUpperCase();
-        if (nameA < nameB) {
-          return -1;
-        }
-        if (nameA > nameB) {
-          return 1;
-        }
-      
-        // names must be equal
-        return 0;
+    $.ajax({
+      url: queryURL
+    }).then((cities)=>{
+      cityData = cities;
+      console.log(cityData);
+    },
+      (error)=>{
+        console.log(error)
       });
 
-        console.log(cityData);
-      //Populating the dropdown of cities
-      for(i=0;i<cityData.length;i++){
-        $option = $("<option>").html(`${cityData[i].EnglishName}`);
-        $option.attr("value",cityData[i].EnglishName);
-        $("#cities").append($option);
+    //sorting cities data  
+    setTimeout(()=>{cityData.sort(function(a,b){
+            var nameA = a.EnglishName.toUpperCase();
+            var nameB = b.EnglishName.toUpperCase();
+            if (nameA < nameB) {
+              return -1;
+            }
+            if (nameA > nameB) {
+              return 1;
+            }
+          
+            // names must be equal
+            return 0;
+          });
 
-      }
-}, 100);
+            console.log(cityData);
+          
+            //Populating the dropdown of cities
+          for(i=0;i<cityData.length;i++){
+            $option = $("<option>").html(`${cityData[i].EnglishName}`);
+            $option.attr("value",cityData[i].EnglishName);
+            $("#cities").append($option);
 
+          }
+    }, 100);
+};
 
 //search button logic
 $("#search").on("click",function(event){
   event.preventDefault();
   console.log("I am inside onclick");
- getData();
+  getCityData();
+  getData();
+  setTimeout(()=>{$(".loading").css("display","none")},8000);
 });
 
 
 const getData = () => {
+  $(".loading").css("display","block");
   localStorage.count+=1;
   localStorage.setItem(`search_${localStorage.count}`,$("#cities").val());
   var newsData;
@@ -70,8 +77,8 @@ const getData = () => {
   var weatherData;
  //News API - New York Times
  baseURL =`https://api.nytimes.com/svc/search/v2/articlesearch.json`;
- apiKey=`&api-key=gFGAKvH7aWr5cKCq0QEb9meMALFVGbm9`;
- queryType = `?q`;
+ apiKey=`&api-key=CToDJ8Mw4A2LtQLGhxE4xtG17dRisE2J`;
+ queryType = `?q=`;
  titleQuery = $("#cities").val();
  queryURL = baseURL + queryType + titleQuery + apiKey;  
  
@@ -87,7 +94,7 @@ const getData = () => {
 
   //GIPHY API
   baseURL =`https://api.giphy.com/v1/gifs/search`;
-  apiKey=`&api_key=dc6zaTOxFJmzC`;
+  apiKey=`&api_key=Y6P1j5JAEJA8WX5fE6rbfa7rFbRGEHnn`;
   queryType = `?q=`;
   titleQuery = $("#cities").val();
   queryURL = baseURL + queryType + titleQuery + apiKey; 
@@ -106,7 +113,18 @@ const getData = () => {
   baseURL =`https://dataservice.accuweather.com`;
   apiKey=`?apikey=UTyEmUNTR7FmVptMCKS7CHHAdSeoDnQR`;
   queryType = `/forecasts/v1/daily/5day/`;
-  titleQuery = `178087`;//$("#cities").val();
+  titleQuery = cityData[cityData.findIndex((value, index, array)=>{if (array[index].EnglishName == $("#cities").val())
+                                                                    return index;
+                                                                  })].Key;
+/*   console.log($("#cities").val());
+  console.log(cityData[cityData.findIndex((value, index, array)=>{
+                                                                  console.log(array[index].EnglishName); 
+                                                                  if (array[index].EnglishName == $("#cities").val())
+                                                                    return index;
+                                                                  }
+                                          )
+                      ].Key
+            ); */
   queryURL = baseURL + queryType + titleQuery + apiKey; 
   $.ajax({
     url: queryURL
@@ -120,13 +138,12 @@ setTimeout(()=>{
   $("#results").css("display","block");
   $("#weather-div").empty();
   $("#news-div").empty();
-  $("#giphy-div").empty();
     
   for(i=0;i<5;i++){
     //const img = giphyData.data[i].images.fixed_height.url;
     //const $giphyDiv = $(`<img class="img-giphy">`).attr("src",img);
 
-    const date = new Date(weatherData.DailyForecasts[i].Date.substring(0,10)).toString().substring(0,10);
+    const date = new Date(weatherData.DailyForecasts[i].Date).toString().substring(0,10);
     const dayWeather = weatherData.DailyForecasts[i].Day.IconPhrase;
     const maxTemp = weatherData.DailyForecasts[i].Temperature.Maximum.Value + "F";
     const minTemp = weatherData.DailyForecasts[i].Temperature.Minimum.Value + "F";
@@ -142,16 +159,17 @@ setTimeout(()=>{
      $("#weather-div").append(`<div class="weather-div"> <div class="weather-date">${date}</div>  <br><div>${maxTemp}/${minTemp}</div><br>  <div>${dayWeather} in the day. </div><br><div>${nightWeather} in the night.</div><br><br></div>`);
      $("#news-div").append($newsDiv);
     }
+    
+    if(giphyData){
+      $("#giphy-div").empty();
+      for(i=0;i<25;i++){
+        const img = giphyData.data[i].images.fixed_height.url;
+        const $giphyDiv = $(`<img class="img-giphy">`).attr("src",img);
+        $("#giphy-div").append($giphyDiv);
+        }
+    }
 
-    for(i=0;i<25;i++){
-      const img = giphyData.data[i].images.fixed_height.url;
-      const $giphyDiv = $(`<img class="img-giphy">`).attr("src",img);
-      $("#giphy-div").append($giphyDiv);
-
-      }
-
-
-},2000)
+},2000);
 
 
 };
