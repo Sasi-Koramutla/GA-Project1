@@ -337,6 +337,7 @@ body{
     margin-left:97%;
     width:3%;
     height:50px;
+    border-radius: 0px;
   }
 
   @keyframes move-left{
