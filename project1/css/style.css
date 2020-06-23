@@ -188,7 +188,7 @@ img{
     border: solid 0.5px rgb(212, 210, 210);
     border-radius: 5px;
     max-width: 100%;
-}
+  }
 
 
 body{
@@ -328,12 +328,12 @@ body{
   }
 
   @keyframes move-left{
-    0%   { left:0px; }
-    30%  { left:250px; }
-    40% {left:600px;}
-    50%  {left:900px; }
-    75%  { left:1200px; }
-    100% {left:1800px;}
+    0%   { left:0%; }
+    30%  { left:20%; }
+    40% {left:50%;}
+    50%  {left:80%; }
+    75%  { left:90%; }
+    100% {left:100%;}
   }
   
   @media only screen and (max-width: 650px) {
