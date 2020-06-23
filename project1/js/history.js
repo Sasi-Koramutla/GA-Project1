@@ -9,5 +9,16 @@ for(i=0;i<localStorage.length-1;i++){
  $("#history").append($div);
 }
 
+//About modal logic
+$("#aboutLink").on("click",()=>{
+  event.preventDefault();
+  $("#modal").css("display","block");
+});
+//close modal logic
+$("#close").on("click",()=>{
+  event.preventDefault();
+  $("#modal").css("display","none");
+});
+
 });
 

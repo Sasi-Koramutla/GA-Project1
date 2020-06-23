@@ -148,15 +148,15 @@ img{
 
 #modal-textbox {
 	background-color: white;
-	height: 350px;
-	width: 550px;
+	height: 500px;
+	width: 95%;
     border-radius: 2px;
     margin: 150px auto;
     box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
     display:flex;
-    align-items: center;
+    align-items: flex-start;
     text-align: center;
-    justify-content: center;
+    justify-content: flex-start;
     flex-direction: column;
 }
 
@@ -281,11 +281,11 @@ body{
  .nav{
      position: sticky;
      top:0;
+     left:0;
      padding:20px;
-     width:100%;
      background-color: white;
      z-index:2;
-     margin:0px;
+     margin:0px auto;
  }
 
  .aNav:link, .aNav:visited, .aNav:active {
@@ -318,6 +318,13 @@ body{
       animation-duration: 6s;
       animation-timing-function: ease-in-out;
       animation-iteration-count: infinite;
+  }
+
+  #close{
+    top:0;
+    margin-left:97%;
+    width:3%;
+    height:50px;
   }
 
   @keyframes move-left{

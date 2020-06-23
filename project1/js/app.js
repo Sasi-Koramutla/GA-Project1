@@ -6,14 +6,16 @@ let queryURL = ``;
 
  $(()=>{
 //defining localStorage   
-if(localStorage.count==null){
+if(localStorage.count==null)
+  {
       localStorage.setItem("count",0);  
    }
 
 console.log("I am at before ajax!");
 var cityData;
 getCityData();
-function getCityData(){
+function getCityData()
+{
     //API to get the list of 100 cities
     baseURL =`https://dataservice.accuweather.com`;
     apiKey=`?apikey=sAAYnkGDdR4uGyMkbQx7MnxgDXAs1oLR`;
@@ -32,36 +34,39 @@ function getCityData(){
       });
 
     //sorting cities data  
-    setTimeout(()=>{cityData.sort(function(a,b){
-            var nameA = a.EnglishName.toUpperCase();
-            var nameB = b.EnglishName.toUpperCase();
-            if (nameA < nameB) {
-              return -1;
-            }
-            if (nameA > nameB) {
-              return 1;
-            }
-          
-            // names must be equal
-            return 0;
-          });
+    setTimeout(()=>
+                {
+                    cityData.sort(function(a,b){
+                    var nameA = a.EnglishName.toUpperCase();
+                    var nameB = b.EnglishName.toUpperCase();
+                    if (nameA < nameB) {
+                      return -1;
+                    }
+                    if (nameA > nameB) {
+                      return 1;
+                    }
+                  
+                    return 0;
+                  });
 
-            console.log(cityData);
-          
-            //Populating the dropdown of cities
-          for(i=0;i<cityData.length;i++){
-            $option = $("<option>").html(`${cityData[i].EnglishName}`);
-            $option.attr("value",cityData[i].EnglishName);
-            $("#cities").append($option);
+                    console.log(cityData);
+                  
+                    //Populating the dropdown of cities
+                  for(i=0;i<cityData.length;i++)
+                  {
+                    $option = $("<option>").html(`${cityData[i].EnglishName}`);
+                    $option.attr("value",cityData[i].EnglishName);
+                    $("#cities").append($option);
 
-          }
-    }, 100);
+                  }
+              }, 100);
 };
 
 //search button logic
 $("#search").on("click",function(event){
   event.preventDefault();
   console.log("I am inside onclick");
+  $("#results").css("display","none");
   getCityData();
   getData();
   setTimeout(()=>{$(".loading").css("display","none");
@@ -90,7 +95,7 @@ const getData = () => {
    newsData = news;
     setTimeout(console.log(newsData),1000);
      }, (error) => {
-    console.error(error)
+    console.error(error);
   }); 
 
 
@@ -176,6 +181,17 @@ setTimeout(()=>{
 };
 console.log("I am at after ajax!");
 console.log($("#cities").val());
+
+//About modal logic
+$("#aboutLink").on("click",()=>{
+  event.preventDefault();
+  $("#modal").css("display","block");
+});
+//close modal logic
+$("#close").on("click",()=>{
+  event.preventDefault();
+  $("#modal").css("display","none");
+});
 
 //carousel logic
 var imgNumber = 1;
